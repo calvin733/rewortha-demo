@@ -1,0 +1,273 @@
+@import 'tailwindcss';
+
+@source '../views/**/*.blade.php';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+@theme static {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --color-background: #f5f7f6;
+    --color-surface: #ffffff;
+    --color-foreground: #1d2b2c;
+    --color-text-muted: #586562;
+    --color-primary: #176a61;
+    --color-primary-hover: #12564f;
+    --color-primary-subtle: #edf6f4;
+    --color-accent: #d5e9e5;
+    --color-border: #e0e7e4;
+    --color-control-border: #7d8d87;
+    --color-muted-surface: #edf2f0;
+    --color-success: #215c47;
+    --color-success-surface: #edf7f0;
+    --color-warning: #715018;
+    --color-warning-surface: #faf2e2;
+    --color-error: #952c3c;
+    --color-error-hover: #792434;
+    --color-error-surface: #fff0f1;
+    --color-info: #176a61;
+    --radius-control: 0.5rem;
+    --radius-panel: 0.875rem;
+}
+
+@layer base {
+    html {
+        color-scheme: light;
+    }
+
+    body {
+        @apply bg-background font-sans text-base leading-relaxed text-foreground antialiased;
+    }
+
+    a[href], button:not(:disabled), select:not(:disabled), summary, label[for] {
+        cursor: pointer;
+    }
+
+    :disabled {
+        cursor: not-allowed;
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 3px;
+    }
+
+    ::selection {
+        background: var(--color-accent);
+        color: var(--color-foreground);
+    }
+
+    [hidden] {
+        display: none !important;
+    }
+
+    fieldset {
+        min-inline-size: 0;
+    }
+
+    summary::-webkit-details-marker {
+        display: none;
+    }
+}
+
+@layer components {
+    .shell-container {
+        @apply mx-auto w-full max-w-[74rem] px-4 sm:px-7 lg:px-8;
+    }
+
+    .workspace-bar {
+        @apply grid min-h-16 grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 md:grid-cols-[auto_minmax(0,1fr)_auto] md:gap-x-7;
+    }
+
+    .workspace-nav {
+        @apply col-span-2 row-start-2 flex min-w-0 border-t border-border md:col-span-1 md:col-start-2 md:row-start-1 md:justify-self-center md:border-t-0;
+    }
+
+    .workspace-account {
+        @apply col-start-2 row-start-1 flex min-w-0 items-center justify-end gap-3 md:col-start-3;
+    }
+
+    .nav-item {
+        @apply flex min-h-12 min-w-0 flex-1 items-center justify-center gap-1.5 border-b-2 border-transparent px-2 text-sm font-medium text-text-muted md:px-4;
+    }
+
+    .nav-item:hover,
+    .nav-item[aria-current] {
+        @apply bg-primary-subtle text-primary;
+    }
+
+    .nav-item[aria-current] {
+        @apply border-primary font-semibold;
+    }
+
+    .page-title {
+        font-size: clamp(1.875rem, 1.375rem + 2vw, 2.75rem);
+        line-height: 1.12;
+        letter-spacing: -0.035em;
+        font-weight: 600;
+        overflow-wrap: anywhere;
+    }
+
+    .section-title {
+        @apply text-xl font-semibold leading-tight;
+    }
+
+    .eyebrow {
+        @apply text-sm font-semibold text-text-muted;
+    }
+
+    .surface {
+        @apply rounded-panel border border-border bg-surface;
+    }
+
+    .btn-primary, .btn-secondary, .btn-ghost, .btn-danger {
+        @apply inline-flex min-h-11 max-w-full items-center justify-center gap-2 rounded-control border border-transparent px-4 py-2.5 text-center text-sm font-semibold leading-5;
+        transition: background-color 170ms ease, border-color 170ms ease, color 170ms ease, transform 170ms ease;
+    }
+
+    .btn-primary {
+        @apply bg-primary text-white hover:bg-primary-hover;
+    }
+
+    .btn-secondary {
+        @apply border-control-border bg-surface text-foreground hover:border-primary hover:bg-primary-subtle;
+    }
+
+    .btn-ghost {
+        @apply text-primary hover:bg-primary-subtle;
+    }
+
+    .btn-danger {
+        @apply bg-error text-white hover:bg-error-hover;
+    }
+
+    :is(.btn-primary, .btn-secondary, .btn-ghost, .btn-danger):active:not(:disabled) {
+        transform: translateY(1px);
+    }
+
+    :is(.btn-primary, .btn-secondary, .btn-ghost, .btn-danger):disabled {
+        @apply border-border bg-muted-surface text-text-muted;
+        transform: none;
+    }
+
+    .text-link {
+        @apply inline-flex min-h-11 items-center gap-1.5 font-semibold text-primary underline decoration-transparent underline-offset-4 hover:text-primary-hover hover:decoration-current;
+    }
+
+    .inline-link {
+        @apply font-semibold text-primary underline underline-offset-4 hover:text-primary-hover;
+    }
+
+    .field-label {
+        @apply mb-1.5 block text-sm font-semibold leading-5;
+    }
+
+    .field-input {
+        @apply block min-h-12 w-full min-w-0 rounded-control border border-control-border bg-surface px-3 py-2.5 text-base leading-6 text-foreground placeholder:text-text-muted hover:border-primary focus:border-primary;
+    }
+
+    .field-input[aria-invalid="true"] {
+        @apply border-error;
+    }
+
+    select.field-input {
+        text-overflow: ellipsis;
+    }
+
+    textarea.field-input {
+        resize: vertical;
+    }
+
+    .field-help, .field-error {
+        @apply mt-2 text-sm leading-5;
+        overflow-wrap: anywhere;
+    }
+
+    .field-help {
+        @apply text-text-muted;
+    }
+
+    .field-error {
+        @apply font-medium text-error;
+    }
+
+    .notice {
+        @apply flex items-start gap-3 rounded-control border-s-4 border-primary bg-primary-subtle px-4 py-3 text-sm leading-6 text-foreground;
+    }
+
+    .notice-success {
+        @apply border-success bg-success-surface;
+    }
+
+    .notice-warning {
+        @apply border-warning bg-warning-surface;
+    }
+
+    .notice-error {
+        @apply border-error bg-error-surface text-error;
+    }
+
+    .disclosure-toggle {
+        @apply flex min-h-12 list-none items-center justify-between gap-3 rounded-control px-4 py-3 text-sm font-semibold hover:bg-primary-subtle sm:px-5;
+    }
+
+    .disclosure-toggle > svg {
+        transition: transform 170ms ease;
+    }
+
+    details[open] > .disclosure-toggle > svg {
+        transform: rotate(45deg);
+    }
+
+    .decision-badge {
+        @apply inline-flex items-center gap-1.5 rounded-control bg-muted-surface px-2.5 py-1 text-sm font-semibold leading-5 text-foreground;
+        overflow-wrap: anywhere;
+    }
+
+    .comparison-outcome {
+        @apply border-s-4 border-primary bg-accent px-4 py-4 sm:px-6;
+    }
+
+    .comparison-amount {
+        @apply font-semibold leading-tight tabular-nums;
+        font-size: clamp(1.5rem, 0.9rem + 2.2vw, 2.5rem);
+        letter-spacing: -0.035em;
+        overflow-wrap: anywhere;
+    }
+
+    .list-link {
+        @apply grid min-h-14 min-w-0 items-center gap-3 px-4 py-3 hover:bg-primary-subtle sm:px-5;
+    }
+
+    .list-link:focus-visible,
+    .nav-item:focus-visible,
+    .disclosure-toggle:focus-visible {
+        outline-offset: -3px;
+    }
+
+    .filter-link {
+        @apply inline-flex min-h-11 items-center border-b-2 border-transparent px-2.5 text-sm font-medium text-text-muted hover:bg-primary-subtle hover:text-primary;
+    }
+
+    .filter-link[aria-current] {
+        @apply border-primary font-semibold text-primary;
+    }
+
+    .auth-layout {
+        @apply grid overflow-hidden rounded-panel border border-border bg-surface md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)];
+    }
+
+    .auth-intro {
+        @apply border-b border-border bg-muted-surface px-5 py-5 md:border-b-0 md:border-e md:p-9 lg:p-12;
+    }
+
+    .auth-form {
+        @apply min-w-0 p-5 sm:p-8 md:p-9 lg:p-12;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
